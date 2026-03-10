@@ -26,14 +26,14 @@ def main():
     # Create proposer agents from different providers
     try:
         proposers = [
-            make_agent("gpt-4o-mini", "openai", "https://api.openai.com/v1/chat/completions"),
+            make_agent("gpt-5-mini", "openai", "https://api.openai.com/v1/chat/completions"),
             make_agent(
-                "Qwen/Qwen2.5-VL-72B-Instruct",
+                "Qwen/Qwen3.5-VL-72B-Instruct",
                 "together",
                 "https://api.together.xyz/v1/chat/completions",
             ),
         ]
-        aggregator = make_agent("gpt-4o", "openai", "https://api.openai.com/v1/chat/completions")
+        aggregator = make_agent("gpt-5", "openai", "https://api.openai.com/v1/chat/completions")
     except RuntimeError as e:
         print(f"Error: {e}")
         print("Make sure OPENAI_API_KEY and TOGETHER_API_KEY are set.")

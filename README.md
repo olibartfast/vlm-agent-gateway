@@ -22,29 +22,29 @@ pip install -e ".[dev,video]"
 vlm-agent-gateway run --workflow sequential \
     --prompt "Describe this image" \
     --images image.jpg \
-    --models gpt-4o-mini gpt-4o \
+    --models gpt-5-mini gpt-5 \
     --providers openai openai
 
 # Parallel workflow - same input to multiple agents
 vlm-agent-gateway run --workflow parallel \
     --prompt "What objects are in this image?" \
     --images image.jpg \
-    --models gpt-4o-mini Qwen/Qwen2.5-VL-72B-Instruct \
+    --models gpt-5-mini Qwen/Qwen3.5-VL-72B-Instruct \
     --providers openai together
 
 # ReAct workflow - agent reasons and uses tools
 vlm-agent-gateway run --workflow react \
     --prompt "Count the people and describe what they're doing" \
     --images image.jpg \
-    --model gpt-4o \
+    --model gpt-5 \
     --tools describe detect_objects count_objects
 
 # Video monitoring - continuous or single-shot
 vlm-agent-gateway monitor \
     --video ./sample.mp4 \
     --alert-prompt "Is anyone falling or in distress?" \
-    --provider together \
-    --model Qwen/Qwen2.5-VL-72B-Instruct
+    --provider google \
+    --model gemini-3-flash
 
 # Continuous webcam monitoring
 vlm-agent-gateway monitor \
@@ -120,7 +120,7 @@ from vlm_agent_gateway import run_sequential, run_react, run_monitoring
 from vlm_agent_gateway.cli import make_agent
 
 # Create agents
-agent = make_agent("gpt-4o", "openai", "https://api.openai.com/v1/chat/completions")
+agent = make_agent("gpt-5", "openai", "https://api.openai.com/v1/chat/completions")
 
 # Run workflow
 result = run_react(

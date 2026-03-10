@@ -228,7 +228,7 @@ def main() -> None:
     run_parser.add_argument("--endpoints", type=str, nargs="+", metavar="URL", help="API endpoint per agent")
 
     # Single-agent fallback (backward-compatible)
-    run_parser.add_argument("--model", "-m", type=str, default="gpt-4o-mini")
+    run_parser.add_argument("--model", "-m", type=str, default="gpt-5-mini")
     run_parser.add_argument("--url", "-u", type=str, default=DEFAULT_ENDPOINT)
     run_parser.add_argument("--provider", type=str, default="openai")
 
@@ -271,8 +271,8 @@ def main() -> None:
     monitor_parser.add_argument("--detail", type=str, default="low", choices=["auto", "low", "high"])
     monitor_parser.add_argument("--max-tokens", type=int, default=1024)
 
-    monitor_parser.add_argument("--provider", "-p", type=str, default="openai")
-    monitor_parser.add_argument("--model", "-m", type=str, default="gpt-4o")
+    monitor_parser.add_argument("--provider", "-p", type=str, default="google")
+    monitor_parser.add_argument("--model", "-m", type=str, default="gemini-3-flash")
     monitor_parser.add_argument("--endpoint", "-e", type=str, default=None)
 
     monitor_parser.add_argument("--alert-prompt", "-a", required=True, help="Condition to monitor for")
