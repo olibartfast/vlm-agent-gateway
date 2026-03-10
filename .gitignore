@@ -1,2 +1,4 @@
 **/build
 llama/llama_venv
+**/__pycache__/
+**/*.pyc
