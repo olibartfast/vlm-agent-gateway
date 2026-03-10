@@ -8,13 +8,11 @@ import logging
 import os
 import sys
 import uuid
-from typing import List
 
 from vlm_agent_gateway.config import (
     DEFAULT_ENDPOINT,
     PROVIDER_DEFAULTS,
     PROVIDER_ENV_MAP,
-    WORKFLOW_CHOICES,
 )
 from vlm_agent_gateway.models import Agent
 from vlm_agent_gateway.tools import BUILTIN_TOOLS
@@ -48,7 +46,7 @@ def make_agent(model: str, provider: str, endpoint: str) -> Agent:
     return Agent(model=model, endpoint=endpoint, api_key=api_key, provider=provider)
 
 
-def build_agents(models: List[str], providers: List[str], endpoints: List[str]) -> List[Agent]:
+def build_agents(models: list[str], providers: list[str], endpoints: list[str]) -> list[Agent]:
     """Create list of Agents from parallel model/provider/endpoint lists."""
     n = len(models)
     providers = providers or ["openai"] * n
@@ -59,7 +57,7 @@ def build_agents(models: List[str], providers: List[str], endpoints: List[str]) 
     if len(endpoints) != n:
         raise ValueError(f"--endpoints length ({len(endpoints)}) must match --models length ({n})")
 
-    return [make_agent(m, p, e) for m, p, e in zip(models, providers, endpoints)]
+    return [make_agent(m, p, e) for m, p, e in zip(models, providers, endpoints, strict=True)]
 
 
 def cmd_run(args) -> None:
@@ -72,14 +70,14 @@ def cmd_run(args) -> None:
         endpoints = args.endpoints or [args.url] * len(models)
         agents = build_agents(models, providers, endpoints)
 
-        common = dict(
-            prompt=args.prompt,
-            image_paths=args.images,
-            detail=args.detail,
-            max_tokens=args.tokens,
-            resize=args.resize,
-            target_size=tuple(args.size),
-        )
+        common = {
+            "prompt": args.prompt,
+            "image_paths": args.images,
+            "detail": args.detail,
+            "max_tokens": args.tokens,
+            "resize": args.resize,
+            "target_size": tuple(args.size),
+        }
 
         if args.workflow == "sequential":
             output = WORKFLOW_REGISTRY["sequential"](agents, **common)

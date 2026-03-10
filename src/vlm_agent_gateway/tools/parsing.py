@@ -4,10 +4,9 @@ Parsing utilities for ReAct steps and monitoring output.
 
 import json
 import re
-from typing import Dict, Optional, Tuple
 
 
-def _parse_react_step(text: str) -> Tuple[Optional[str], Optional[str], Dict, Optional[str]]:
+def _parse_react_step(text: str) -> tuple[str | None, str | None, dict, str | None]:
     """
     Parse one ReAct step from model output.
 
@@ -40,7 +39,7 @@ def _parse_react_step(text: str) -> Tuple[Optional[str], Optional[str], Dict, Op
     return thought, action, action_input, None
 
 
-def parse_monitor_output(text: str) -> Dict:
+def parse_monitor_output(text: str) -> dict:
     """
     Parse the structured output from the monitoring agent.
 

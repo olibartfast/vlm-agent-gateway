@@ -10,7 +10,6 @@ Input ──► [Router Agent] ──► category
                              final output
 """
 
-from typing import List, Tuple
 
 from vlm_agent_gateway.models import Agent
 from vlm_agent_gateway.providers import run_agent
@@ -18,14 +17,14 @@ from vlm_agent_gateway.providers import run_agent
 
 def run_conditional(
     router_agent: Agent,
-    specialist_agents: List[Agent],
-    categories: List[str],
+    specialist_agents: list[Agent],
+    categories: list[str],
     prompt: str,
-    image_paths: List[str],
+    image_paths: list[str],
     detail: str,
     max_tokens: int,
     resize: bool,
-    target_size: Tuple[int, int],
+    target_size: tuple[int, int],
 ) -> dict:
     """
     Route input to a specialist based on router classification.
@@ -56,7 +55,7 @@ def run_conditional(
     # Step 2 — Find matching specialist (case-insensitive, fallback to first)
     specialist = None
     matched_category = None
-    for cat, spec in zip(categories, specialist_agents):
+    for cat, spec in zip(categories, specialist_agents, strict=True):
         if cat.lower() in route or route in cat.lower():
             specialist = spec
             matched_category = cat

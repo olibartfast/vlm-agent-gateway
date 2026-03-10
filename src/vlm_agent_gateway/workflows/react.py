@@ -8,7 +8,6 @@ prompt ──► [Agent: Thought + Action] ──► tool call
                        ──► Final Answer
 """
 
-from typing import Dict, List, Optional, Tuple
 
 from vlm_agent_gateway.config import REACT_SYSTEM_PROMPT
 from vlm_agent_gateway.models import Agent, Tool
@@ -19,12 +18,12 @@ from vlm_agent_gateway.tools import BUILTIN_TOOLS, _parse_react_step
 def run_react(
     agent: Agent,
     prompt: str,
-    image_paths: List[str],
+    image_paths: list[str],
     detail: str,
     max_tokens: int,
     resize: bool,
-    target_size: Tuple[int, int],
-    enabled_tools: Optional[List[str]] = None,
+    target_size: tuple[int, int],
+    enabled_tools: list[str] | None = None,
     max_steps: int = 5,
 ) -> dict:
     """
@@ -36,7 +35,7 @@ def run_react(
     next action. The loop ends when the agent emits "Final Answer:" or the
     step budget is exhausted.
     """
-    tools: Dict[str, Tool] = (
+    tools: dict[str, Tool] = (
         {k: v for k, v in BUILTIN_TOOLS.items() if k in enabled_tools}
         if enabled_tools
         else BUILTIN_TOOLS

@@ -3,13 +3,12 @@ Configuration constants and environment handling.
 """
 
 import os
-from typing import Dict
 
 # ---------------------------------------------------------------------------
 # Provider configuration
 # ---------------------------------------------------------------------------
 
-PROVIDER_ENV_MAP: Dict[str, str] = {
+PROVIDER_ENV_MAP: dict[str, str] = {
     "openai": "OPENAI_API_KEY",
     "anthropic": "ANTHROPIC_API_KEY",
     "google": "GOOGLE_API_KEY",
@@ -19,7 +18,7 @@ PROVIDER_ENV_MAP: Dict[str, str] = {
     "mistral": "MISTRAL_API_KEY",
 }
 
-PROVIDER_DEFAULTS: Dict[str, str] = {
+PROVIDER_DEFAULTS: dict[str, str] = {
     "openai": "https://api.openai.com/v1/chat/completions",
     "together": "https://api.together.xyz/v1/chat/completions",
     "groq": "https://api.groq.com/openai/v1/chat/completions",

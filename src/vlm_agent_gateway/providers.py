@@ -4,7 +4,6 @@ API request/response handling for VLM providers.
 
 import json
 import time
-from typing import List, Tuple
 
 import requests
 
@@ -14,12 +13,12 @@ from vlm_agent_gateway.models import Agent, AgentResult
 
 def create_payload(
     prompt: str,
-    image_paths: List[str],
+    image_paths: list[str],
     model: str,
     detail: str,
     max_tokens: int,
     resize: bool = False,
-    target_size: Tuple[int, int] = (512, 512),
+    target_size: tuple[int, int] = (512, 512),
 ) -> dict:
     """
     Build an OpenAI-compatible chat-completions payload with images.
@@ -49,7 +48,7 @@ def build_video_payload(
     model: str,
     system_prompt: str,
     user_prompt: str,
-    frame_b64_list: List[str],
+    frame_b64_list: list[str],
     max_tokens: int = 1024,
     detail: str = "low",
 ) -> dict:
@@ -60,7 +59,7 @@ def build_video_payload(
     This is the de-facto standard for video-as-frames via the OpenAI API,
     supported natively by vLLM, SGLang, Together AI, and others.
     """
-    content: List[dict] = [{"type": "text", "text": user_prompt}]
+    content: list[dict] = [{"type": "text", "text": user_prompt}]
 
     for b64 in frame_b64_list:
         content.append({
@@ -125,11 +124,11 @@ def normalize_response(response: dict, provider: str = "openai") -> str:
 def run_agent(
     agent: Agent,
     prompt: str,
-    image_paths: List[str],
+    image_paths: list[str],
     detail: str,
     max_tokens: int,
     resize: bool,
-    target_size: Tuple[int, int],
+    target_size: tuple[int, int],
 ) -> AgentResult:
     """Execute a single agent call and return an AgentResult."""
     payload = create_payload(prompt, image_paths, agent.model, detail, max_tokens, resize, target_size)

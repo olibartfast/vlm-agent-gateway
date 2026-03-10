@@ -3,8 +3,8 @@ Data models (dataclasses) for the VLM Agent Gateway.
 """
 
 import uuid
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Callable, Optional
 
 
 @dataclass
@@ -26,7 +26,7 @@ class AgentResult:
     content: str
     raw_response: dict
     latency_ms: float
-    error: Optional[str] = None
+    error: str | None = None
 
     @property
     def success(self) -> bool:

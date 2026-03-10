@@ -7,21 +7,20 @@ Input ──► [Proposer-3] ─┘
 """
 
 import concurrent.futures
-from typing import List, Tuple
 
 from vlm_agent_gateway.models import Agent
 from vlm_agent_gateway.providers import run_agent
 
 
 def run_moa(
-    proposer_agents: List[Agent],
+    proposer_agents: list[Agent],
     aggregator_agent: Agent,
     prompt: str,
-    image_paths: List[str],
+    image_paths: list[str],
     detail: str,
     max_tokens: int,
     resize: bool,
-    target_size: Tuple[int, int],
+    target_size: tuple[int, int],
 ) -> dict:
     """
     Execute multiple proposers in parallel, then aggregate results.

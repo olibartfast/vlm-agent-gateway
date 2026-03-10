@@ -10,7 +10,6 @@ prompt ──► [Agent] ──► output-1
                        final output
 """
 
-from typing import List, Optional, Tuple
 
 from vlm_agent_gateway.models import Agent
 from vlm_agent_gateway.providers import run_agent
@@ -19,12 +18,12 @@ from vlm_agent_gateway.providers import run_agent
 def run_iterative(
     agent: Agent,
     prompt: str,
-    image_paths: List[str],
+    image_paths: list[str],
     detail: str,
     max_tokens: int,
     resize: bool,
-    target_size: Tuple[int, int],
-    evaluator_agent: Optional[Agent] = None,
+    target_size: tuple[int, int],
+    evaluator_agent: Agent | None = None,
     max_iterations: int = 3,
 ) -> dict:
     """

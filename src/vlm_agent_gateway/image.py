@@ -4,7 +4,6 @@ Image processing utilities.
 
 import base64
 import io
-from typing import Tuple, Union
 
 import requests
 from PIL import Image, ImageOps
@@ -16,8 +15,8 @@ def is_url(path: str) -> bool:
 
 
 def resize_with_padding(
-    image: Union[str, bytes],
-    target_size: Tuple[int, int] = (512, 512),
+    image: str | bytes,
+    target_size: tuple[int, int] = (512, 512),
 ) -> bytes:
     """
     Resize an image to target size while maintaining aspect ratio.
@@ -56,7 +55,7 @@ def resize_with_padding(
 def encode_image(
     image_path: str,
     resize: bool = False,
-    target_size: Tuple[int, int] = (512, 512),
+    target_size: tuple[int, int] = (512, 512),
 ) -> str:
     """
     Encode an image to base64.

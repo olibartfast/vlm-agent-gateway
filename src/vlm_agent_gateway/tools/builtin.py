@@ -2,7 +2,6 @@
 Built-in ReAct tools for vision analysis.
 """
 
-from typing import Dict, List, Tuple
 
 from vlm_agent_gateway.models import Agent, Tool
 from vlm_agent_gateway.providers import run_agent
@@ -10,11 +9,11 @@ from vlm_agent_gateway.providers import run_agent
 
 def _tool_describe(
     agent: Agent,
-    image_paths: List[str],
+    image_paths: list[str],
     detail: str,
     max_tokens: int,
     resize: bool,
-    target_size: Tuple[int, int],
+    target_size: tuple[int, int],
     **kwargs,
 ) -> str:
     """Ask the VLM to describe the image(s)."""
@@ -25,11 +24,11 @@ def _tool_describe(
 
 def _tool_detect_objects(
     agent: Agent,
-    image_paths: List[str],
+    image_paths: list[str],
     detail: str,
     max_tokens: int,
     resize: bool,
-    target_size: Tuple[int, int],
+    target_size: tuple[int, int],
     **kwargs,
 ) -> str:
     """Ask the VLM to list all objects visible in the image(s)."""
@@ -47,11 +46,11 @@ def _tool_detect_objects(
 
 def _tool_read_text(
     agent: Agent,
-    image_paths: List[str],
+    image_paths: list[str],
     detail: str,
     max_tokens: int,
     resize: bool,
-    target_size: Tuple[int, int],
+    target_size: tuple[int, int],
     **kwargs,
 ) -> str:
     """Ask the VLM to extract all visible text (OCR) from the image(s)."""
@@ -69,11 +68,11 @@ def _tool_read_text(
 
 def _tool_analyze_region(
     agent: Agent,
-    image_paths: List[str],
+    image_paths: list[str],
     detail: str,
     max_tokens: int,
     resize: bool,
-    target_size: Tuple[int, int],
+    target_size: tuple[int, int],
     **kwargs,
 ) -> str:
     """Ask the VLM to focus analysis on a described region of the image."""
@@ -93,11 +92,11 @@ def _tool_analyze_region(
 
 def _tool_count_objects(
     agent: Agent,
-    image_paths: List[str],
+    image_paths: list[str],
     detail: str,
     max_tokens: int,
     resize: bool,
-    target_size: Tuple[int, int],
+    target_size: tuple[int, int],
     **kwargs,
 ) -> str:
     """Ask the VLM to count occurrences of a specific object."""
@@ -115,7 +114,7 @@ def _tool_count_objects(
     return result.content if result.success else f"ERROR: {result.error}"
 
 
-BUILTIN_TOOLS: Dict[str, Tool] = {
+BUILTIN_TOOLS: dict[str, Tool] = {
     "describe": Tool(
         name="describe",
         description="Generate a detailed description of the image(s).",

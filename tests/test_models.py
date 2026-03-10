@@ -1,6 +1,6 @@
 """Tests for data models."""
 
-from vlm_agent_gateway.models import Agent, AgentResult, AlertEvent, Tool
+from vlm_agent_gateway.models import Agent, AlertEvent, Tool
 
 
 def test_agent_creation():

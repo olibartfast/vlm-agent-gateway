@@ -4,11 +4,11 @@ Video monitoring workflow with ReAct-style structured output.
 Video source ──► Frame extraction ──► VLM analysis ──► Alert dispatch
 """
 
+import contextlib
 import json
 import logging
 import time
 from datetime import datetime, timezone
-from typing import List, Optional
 
 from vlm_agent_gateway.config import MONITOR_SYSTEM_PROMPT
 from vlm_agent_gateway.models import AlertEvent
@@ -23,7 +23,7 @@ def run_monitoring_cycle(
     endpoint: str,
     api_key: str,
     model: str,
-    frame_b64_list: List[str],
+    frame_b64_list: list[str],
     alert_prompt: str,
     max_tokens: int = 1024,
     detail: str = "low",
@@ -67,10 +67,7 @@ def run_monitoring_cycle(
 
 def alert_handler_console(event: AlertEvent) -> None:
     """Print alert to console with color coding."""
-    if event.alert:
-        prefix = "\033[91m🚨 ALERT\033[0m"
-    else:
-        prefix = "\033[92m✅ OK\033[0m"
+    prefix = "\033[91m🚨 ALERT\033[0m" if event.alert else "\033[92m✅ OK\033[0m"
 
     print(f"\n{prefix}  [{event.timestamp}]  latency={event.latency_ms:.0f}ms")
     print(f"  Summary: {event.summary}")
@@ -97,7 +94,7 @@ def run_continuous_monitoring(
     interval_seconds: float = 10.0,
     max_tokens: int = 1024,
     detail: str = "low",
-    output_jsonl: Optional[str] = None,
+    output_jsonl: str | None = None,
 ) -> None:
     """
     Continuously capture frames and run monitoring cycles.
@@ -107,13 +104,11 @@ def run_continuous_monitoring(
     """
     try:
         import cv2
-    except ImportError:
-        raise ImportError("opencv-python is required for continuous monitoring")
+    except ImportError as err:
+        raise ImportError("opencv-python is required for continuous monitoring") from err
 
-    try:
+    with contextlib.suppress(ValueError, TypeError):
         source = int(source)
-    except (ValueError, TypeError):
-        pass
 
     cap = cv2.VideoCapture(source)
     if not cap.isOpened():
@@ -134,7 +129,7 @@ def run_continuous_monitoring(
     try:
         while True:
             # Collect a window of frames
-            frames: List[bytes] = []
+            frames: list[bytes] = []
             idx = 0
             while len(frames) < window_frames:
                 ret, frame = cap.read()
@@ -196,7 +191,7 @@ def run_monitoring(
     continuous: bool = False,
     interval_seconds: float = 10.0,
     window_frames: int = 8,
-    output_jsonl: Optional[str] = None,
+    output_jsonl: str | None = None,
 ) -> dict:
     """
     Run video monitoring workflow.

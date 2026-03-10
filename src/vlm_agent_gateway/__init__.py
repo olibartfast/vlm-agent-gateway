@@ -8,20 +8,7 @@ and 7 workflow patterns (sequential, parallel, conditional, iterative, MoA, ReAc
 
 from pathlib import Path
 
-
-def _read_version() -> str:
-    """Read version from VERSION file."""
-    version_file = Path(__file__).parent.parent.parent / "VERSION"
-    if version_file.exists():
-        return version_file.read_text().strip()
-    return "0.0.0"
-
-
-__version__ = _read_version()
-
 # Core models
-from vlm_agent_gateway.models import Agent, AgentResult, AlertEvent, Tool
-
 # Configuration
 from vlm_agent_gateway.config import (
     DEFAULT_ENDPOINT,
@@ -33,9 +20,7 @@ from vlm_agent_gateway.config import (
 
 # Image utilities
 from vlm_agent_gateway.image import encode_image, is_url, resize_with_padding
-
-# Video utilities
-from vlm_agent_gateway.video import extract_frames_cv2, frames_to_base64
+from vlm_agent_gateway.models import Agent, AgentResult, AlertEvent, Tool
 
 # Provider functions
 from vlm_agent_gateway.providers import (
@@ -48,6 +33,9 @@ from vlm_agent_gateway.providers import (
 
 # Tools
 from vlm_agent_gateway.tools import BUILTIN_TOOLS
+
+# Video utilities
+from vlm_agent_gateway.video import extract_frames_cv2, frames_to_base64
 
 # Workflows
 from vlm_agent_gateway.workflows import (
@@ -62,6 +50,17 @@ from vlm_agent_gateway.workflows import (
     run_react,
     run_sequential,
 )
+
+
+def _read_version() -> str:
+    """Read version from VERSION file."""
+    version_file = Path(__file__).parent.parent.parent / "VERSION"
+    if version_file.exists():
+        return version_file.read_text().strip()
+    return "0.0.0"
+
+
+__version__ = _read_version()
 
 __all__ = [
     # Version
