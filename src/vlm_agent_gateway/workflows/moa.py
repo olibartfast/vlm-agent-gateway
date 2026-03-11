@@ -63,13 +63,15 @@ def run_moa(
         resize,
         target_size,
     )
+    if agg_result.error:
+        raise RuntimeError(f"Aggregator agent failed: {agg_result.error}")
 
     return {
         "workflow": "moa",
         "aggregator_model": aggregator_agent.model,
         "aggregator_provider": aggregator_agent.provider,
         "aggregator_latency_ms": round(agg_result.latency_ms, 1),
-        "content": agg_result.content if not agg_result.error else successful[0].content,
+        "content": agg_result.content,
         "proposers": [
             {
                 "agent_id": r.agent_id,

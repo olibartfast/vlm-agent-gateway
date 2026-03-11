@@ -50,6 +50,8 @@ def run_iterative(
                 "Reply with ONLY a single integer between 1 and 10."
             )
             eval_result = run_agent(evaluator_agent, eval_prompt, [], detail, max_tokens, resize, target_size)
+            if eval_result.error:
+                raise RuntimeError(f"Evaluator failed during iteration {i + 1}: {eval_result.error}")
             try:
                 score = int("".join(filter(str.isdigit, eval_result.content.strip()))[:2] or "0")
             except ValueError:

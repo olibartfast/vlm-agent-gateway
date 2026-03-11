@@ -65,7 +65,9 @@ def encode_image(
     """
     if resize:
         if is_url(image_path):
-            img_bytes = resize_with_padding(requests.get(image_path).content, target_size)
+            response = requests.get(image_path, timeout=30)
+            response.raise_for_status()
+            img_bytes = resize_with_padding(response.content, target_size)
         else:
             img_bytes = resize_with_padding(image_path, target_size)
         return base64.b64encode(img_bytes).decode("utf-8")

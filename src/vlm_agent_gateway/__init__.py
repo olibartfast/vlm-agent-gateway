@@ -16,6 +16,7 @@ from vlm_agent_gateway.config import (
     WORKFLOW_CHOICES,
     get_api_key,
     get_default_endpoint,
+    resolve_endpoint,
 )
 
 # Image utilities
@@ -76,6 +77,7 @@ __all__ = [
     "WORKFLOW_CHOICES",
     "get_api_key",
     "get_default_endpoint",
+    "resolve_endpoint",
     # Image
     "encode_image",
     "is_url",

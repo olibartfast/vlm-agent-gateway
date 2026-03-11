@@ -10,6 +10,7 @@ from vlm_agent_gateway.config import (
     WORKFLOW_CHOICES,
     get_api_key,
     get_default_endpoint,
+    resolve_endpoint,
 )
 
 
@@ -36,9 +37,23 @@ def test_default_endpoint():
 def test_get_default_endpoint():
     """Test get_default_endpoint returns correct endpoints."""
     assert "openai.com" in get_default_endpoint("openai")
+    assert "anthropic.com" in get_default_endpoint("anthropic")
+    assert "generativelanguage.googleapis.com" in get_default_endpoint("google")
     assert "together.xyz" in get_default_endpoint("together")
     # Unknown provider falls back to default
     assert get_default_endpoint("unknown") == DEFAULT_ENDPOINT
+
+
+def test_resolve_endpoint_requires_explicit_for_azure():
+    """Known providers without a shared default endpoint must be explicit."""
+    with pytest.raises(RuntimeError, match="requires an explicit --endpoint"):
+        resolve_endpoint("azure")
+
+
+def test_resolve_endpoint_uses_provider_default():
+    """Known providers with OpenAI-compatible endpoints resolve automatically."""
+    assert "anthropic.com" in resolve_endpoint("anthropic")
+    assert "generativelanguage.googleapis.com" in resolve_endpoint("google")
 
 
 def test_get_api_key_missing():

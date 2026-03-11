@@ -11,8 +11,8 @@ import uuid
 
 from vlm_agent_gateway.config import (
     DEFAULT_ENDPOINT,
-    PROVIDER_DEFAULTS,
     PROVIDER_ENV_MAP,
+    resolve_endpoint,
 )
 from vlm_agent_gateway.models import Agent
 from vlm_agent_gateway.tools import BUILTIN_TOOLS
@@ -50,7 +50,7 @@ def build_agents(models: list[str], providers: list[str], endpoints: list[str]) 
     """Create list of Agents from parallel model/provider/endpoint lists."""
     n = len(models)
     providers = providers or ["openai"] * n
-    endpoints = endpoints or [DEFAULT_ENDPOINT] * n
+    endpoints = endpoints or [resolve_endpoint(provider) for provider in providers]
 
     if len(providers) != n:
         raise ValueError(f"--providers length ({len(providers)}) must match --models length ({n})")
@@ -141,7 +141,7 @@ def cmd_monitor(args) -> None:
 
     try:
         # Resolve endpoint
-        endpoint = args.endpoint or PROVIDER_DEFAULTS.get(args.provider, DEFAULT_ENDPOINT)
+        endpoint = resolve_endpoint(args.provider, args.endpoint)
 
         # Resolve API key
         env_var = PROVIDER_ENV_MAP.get(args.provider, "OPENAI_API_KEY")

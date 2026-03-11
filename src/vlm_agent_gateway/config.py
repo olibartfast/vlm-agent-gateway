@@ -21,6 +21,8 @@ PROVIDER_ENV_MAP: dict[str, str] = {
 
 PROVIDER_DEFAULTS: dict[str, str] = {
     "openai": "https://api.openai.com/v1/chat/completions",
+    "anthropic": "https://api.anthropic.com/v1/chat/completions",
+    "google": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
     "together": "https://api.together.xyz/v1/chat/completions",
     "groq": "https://api.groq.com/openai/v1/chat/completions",
     "mistral": "https://api.mistral.ai/v1/chat/completions",
@@ -103,3 +105,16 @@ def get_api_key(provider: str) -> str:
 def get_default_endpoint(provider: str) -> str:
     """Get default endpoint for a provider."""
     return PROVIDER_DEFAULTS.get(provider.lower(), DEFAULT_ENDPOINT)
+
+
+def resolve_endpoint(provider: str, endpoint: str | None = None) -> str:
+    """Resolve an endpoint for a provider, requiring explicit URLs when needed."""
+    if endpoint:
+        return endpoint
+
+    provider_name = provider.lower()
+    if provider_name in PROVIDER_DEFAULTS:
+        return PROVIDER_DEFAULTS[provider_name]
+    if provider_name in PROVIDER_ENV_MAP:
+        raise RuntimeError(f"Provider '{provider}' requires an explicit --endpoint value.")
+    return DEFAULT_ENDPOINT
